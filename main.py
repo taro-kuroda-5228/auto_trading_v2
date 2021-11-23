@@ -4,7 +4,6 @@ from auto_trading.name import Name
 from auto_trading.raw_data import RawData
 from auto_trading.symbol_data import SymbolData
 
-
 def main():
   ticker = Name("MSFT", "US").ticker
   symbol_data = SymbolData(ticker).symbol_data
@@ -12,7 +11,5 @@ def main():
   datamart = Datamart(raw_data, "close", 5)
   print(datamart.datamart.head())
 
-
 if __name__ == "__main__":
   main()
-  
