@@ -42,4 +42,14 @@ RUN pip3 install --upgrade --no-cache-dir \
       @jupyterlab/toc \
     && jupyter serverextension enable --py jupyterlab_code_formatter
 
+# make directory
+RUN mkdir -p /root/.jupyter/lab/user-settings/@ryantam626/jupyterlab_code_formatter/ \
+    && mkdir -p /root/.jupyter/lab/user-settings/@jupyterlab/notebook-extension/ \
+    && mkdir -p /root/.jupyter/lab/user-settings/@jupyterlab/apputils-extension/
+    
+# copy setting files
+COPY envs/settings.jupyterlab-settings /root/.jupyter/lab/user-settings/@ryantam626/jupyterlab_code_formatter/
+COPY envs/tracker.jupyterlab-settings /root/.jupyter/lab/user-settings/@jupyterlab/notebook-extension/
+COPY envs/themes.jupyterlab-settings /root/.jupyter/lab/user-settings/@jupyterlab/apputils-extension/
+
 WORKDIR /home/work/
