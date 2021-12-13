@@ -15,23 +15,30 @@ def test_raw_data_class():
 
 
 def test_raw_data_type():
-    raw_data_type = type(RawData(symbol_data).raw_data)
-    actual = raw_data_type
+    actual = type(RawData(symbol_data).raw_data)
     expected = pd.DataFrame
     assert actual == expected
 
 
 def test_raw_data_data_n():
-    data_n = RawData(symbol_data).raw_data.size
-    actual = data_n
+    actual = RawData(symbol_data).raw_data.size
     expected = 286 * 6
     assert actual <= expected
 
 
 def test_raw_data_index_0():
-    # today = datetime.date.today()
-    # today = today.strftime("%Y-%m-%d")
-    today = "2021-12-10"
-    actual = RawData(symbol_data).raw_data.loc[today]
+    date = datetime.date.today()
+    date_of_week = datetime.date.today().strftime("%A")
+
+    # 曜日、時差を考慮
+    if date_of_week == "Sunday":
+        date -= datetime.timedelta(days=2)
+    elif date_of_week == "Monday":
+        date -= datetime.timedelta(days=3)
+    else:
+        date -= datetime.timedelta(days=1)
+
+    date = date.strftime("%Y-%m-%d")
+    actual = RawData(symbol_data).raw_data.loc[date]
     expected = pd.DataFrame([symbol_data]).tail(1)[1:6]
     assert all(actual == expected)
