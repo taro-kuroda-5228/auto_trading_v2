@@ -26,19 +26,20 @@ def test_raw_data_data_n():
     assert actual <= expected
 
 
-def test_raw_data_index_0():
-    date = datetime.date.today()
+def adjust_date_of_week(date):
     date_of_week = datetime.date.today().strftime("%A")
-
-    # 曜日、時差を考慮
     if date_of_week == "Sunday":
         date -= datetime.timedelta(days=2)
     elif date_of_week == "Monday":
         date -= datetime.timedelta(days=3)
     else:
         date -= datetime.timedelta(days=1)
+    return date
 
-    date = date.strftime("%Y-%m-%d")
-    actual = RawData(symbol_data).raw_data.loc[date]
-    expected = pd.DataFrame([symbol_data]).tail(1)[1:6]
-    assert all(actual == expected)
+
+def test_raw_data_index_0():
+    date = datetime.date.today()
+    date = adjust_date_of_week(date)
+    expected = date.strftime("%Y-%m-%d")
+    actual = RawData(symbol_data).raw_data.index[0]
+    assert actual == expected
