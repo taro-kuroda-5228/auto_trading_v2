@@ -35,3 +35,16 @@ def test_datamart_jp():
     actual = Datamart(raw_data_toyota, "close", 3).datamart.columns.tolist()[1:5]
     expected = ["close_N-0", "close_N-1", "close_N-2", "close_N-3"]
     assert actual == expected
+
+
+def test_datamart_real_num():
+    actual = Datamart(raw_data_msft, "open", 5).datamart.iloc[0, 1:].tolist()
+    expected = [
+        320.8800048828125,
+        335.7099914550781,
+        328.6099853515625,
+        333.2200012207031,
+        340.67999267578125,
+        334.9800109863281,
+    ]
+    assert actual == expected
