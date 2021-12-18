@@ -26,12 +26,12 @@ def test_datamart_type():
 
 
 def test_datamart_us():
-    actual = Datamart(raw_data_msft, "open", 5).datamart
-    expected = [333.22, 340.68, 334.98, 334.98, 334.98, 334.41, 335.31]
-    assert all(actual == expected)
+    actual = Datamart(raw_data_msft, "open", 5).datamart.columns.tolist()[1:7]
+    expected = ["open_N-0", "open_N-1", "open_N-2", "open_N-3", "open_N-4", "open_N-5"]
+    assert actual == expected
 
 
 def test_datamart_jp():
-    actual = Datamart(raw_data_toyota, "close", 3).datamart
-    expected = [2118.50, 2045.00, 2002.00, 2052.00, 2052.00]
-    assert all(actual == expected)
+    actual = Datamart(raw_data_toyota, "close", 3).datamart.columns.tolist()[1:5]
+    expected = ["close_N-0", "close_N-1", "close_N-2", "close_N-3"]
+    assert actual == expected
