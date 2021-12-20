@@ -1,2 +1,3 @@
 class Model:
-    pass
+    def __init__(self, datamart):
+        self._datamart = datamart
