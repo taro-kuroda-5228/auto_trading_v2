@@ -17,5 +17,5 @@ datamart = Datamart(raw_data_msft, "open", 5).datamart
 model = Model(datamart)
 
 
-def test_model_instance__datamart():
+def test_model_instance_datamart():
     assert_frame_equal(model._datamart, datamart)
