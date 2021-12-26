@@ -25,4 +25,5 @@ def test_model_instance_datamart():
 
 
 def test_model_instance_fit_clf():
-    assert model.fit(clf) == clf
+    model.fit()
+    assert model.clf
