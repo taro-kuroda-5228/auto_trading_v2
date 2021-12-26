@@ -17,7 +17,6 @@ raw_data_msft = RawData(symbol_data_msft).raw_data
 datamart = Datamart(raw_data_msft, "open", 5).datamart
 
 model = Model(datamart)
-clf = lgb.LGBMClassifier()
 
 
 def test_model_instance_datamart():
