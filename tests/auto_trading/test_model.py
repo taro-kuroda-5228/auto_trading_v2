@@ -1,5 +1,6 @@
 import pytest
 import pandas
+import numpy as np
 import lightgbm as lgb
 from pandas._testing import assert_frame_equal
 from sklearn.model_selection import train_test_split
@@ -26,3 +27,6 @@ class TestModelInstance:
     def test_model_instance_fit_clf(self):
         self.model.fit()
         assert self.model.clf
+
+    def test_model_instance_predict(self):
+        assert type(self.model.predict()) == np.ndarray

@@ -14,4 +14,12 @@ class Model:
             ["open_N-0", "open_N-1", "open_N-2", "open_N-3", "open_N-4", "open_N-5"]
         ]
         self.y = self.df["target"]
-        self.clf.fit(self.X, self.y)
+        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(
+            self.X, self.y, test_size=0.3, random_state=0
+        )
+        self.clf.fit(self.X_train, self.y_train)
+
+    def predict(self):
+        self.fit()
+        self.y_pred = self.clf.predict(self.X_test)
+        return self.y_pred
