@@ -3,10 +3,11 @@ import pandas as pd
 
 
 class Datamart:
-    def __init__(self, raw_data, single_values: str, num_lag: int):
+    def __init__(self, raw_data, single_values: str, num_lag: int, days_before: int):
         self.raw_data = raw_data
         self.single_values = single_values
         self.num_lag = num_lag
+        self.days_before = days_before
 
     @property
     def _lag_data(self):
@@ -23,7 +24,7 @@ class Datamart:
         return self.raw_data["timestamp"]
 
     def _target_values(self, df: pd.DataFrame, column: str):
-        return [int(_bool) for _bool in df[f"{column}_N-0"] > df[f"{column}_N-1"]]
+        return [int(_bool) for _bool in df[f"{column}_N-0"] > df[f"{column}_N-{self.days_before}"]]
 
     @property
     def _lag_data_frame(self):
