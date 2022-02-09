@@ -3,11 +3,24 @@ import pandas as pd
 
 
 class Datamart:
-    def __init__(self, raw_data, single_values: str, num_lag: int, days_before: int):
+    """Datamart class creates pd.DataFrame composed by the value you want.
+    Datamart "target" column is a objective variable. Other columns are explanatory one. 
+    Args:
+        raw_data: stock raw data
+        single_values: topical value in stock movement 
+        num_lag: duration you want for 
+        days_before: how long days you want to predict after
+        ticker: ticker symbol you want information of
+    Typical usage example:
+        if you want to predict Microsoft corporation's 1 week after close price with using recent 10 days price movement,
+        datamart = Datamart(raw_data, 'close', 10, 7, 'MSFT').datamart
+    """    
+    def __init__(self, raw_data, single_values: str, num_lag: int, days_before: int, ticker: str):
         self.raw_data = raw_data
         self.single_values = single_values
         self.num_lag = num_lag
         self.days_before = days_before
+        self.ticker = ticker
 
     @property
     def _lag_data(self):
@@ -17,14 +30,14 @@ class Datamart:
 
     @property
     def _lag_data_columns(self):
-        return [f"{self.single_values}_N-{i}" for i in range(self.num_lag + 1)]
+        return [f"{self.ticker}_{self.single_values}_N-{i}" for i in range(self.num_lag + 1)]
 
     @property
     def _lag_data_index(self):
         return self.raw_data["timestamp"]
 
     def _target_values(self, df: pd.DataFrame, column: str):
-        return [int(_bool) for _bool in df[f"{column}_N-0"] > df[f"{column}_N-{self.days_before}"]]
+        return [int(_bool) for _bool in df[f"{self.ticker}_{column}_N-0"] > df[f"{self.ticker}_{column}_N-{self.days_before}"]]
 
     @property
     def _lag_data_frame(self):
@@ -43,6 +56,6 @@ class Datamart:
     @property
     def datamart(self):
         sorted_col_name = ["target"] + [
-            f"{self.single_values}_N-{i}" for i in range(self.num_lag + 1)
+            f"{self.ticker}_{self.single_values}_N-{i}" for i in range(self.num_lag + 1)
         ]
         return self._lag_data_frame[sorted_col_name]
